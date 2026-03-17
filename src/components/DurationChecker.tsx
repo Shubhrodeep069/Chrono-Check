@@ -37,7 +37,7 @@ export default function DurationChecker() {
 
   return (
     <div
-      className="relative bg-card p-6 md:p-8 border-[3px] border-sunny-yellow"
+      className="relative bg-card p-8 md:p-10 border-[3px] border-sunny-yellow overflow-hidden"
       style={{
         borderRadius: "0.5rem 2.5rem 0.5rem 2.5rem",
         transform: "rotate(-1deg)",

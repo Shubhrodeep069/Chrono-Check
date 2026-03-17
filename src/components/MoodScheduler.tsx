@@ -37,11 +37,11 @@ export default function MoodScheduler() {
 
   return (
     <div
-      className="relative bg-card p-6 md:p-8 border-[3px] border-lime-green glow-lime"
+      className="relative bg-card p-8 md:p-10 border-[3px] border-lime-green glow-lime overflow-hidden"
       style={{
-        borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+        borderRadius: "2rem 3rem 1.5rem 2.5rem",
         transform: "rotate(1deg)",
-        animation: "float 5.5s ease-in-out 0.8s infinite, blob-shift 8s ease-in-out infinite",
+        animation: "float 5.5s ease-in-out 0.8s infinite",
       }}
     >
       <h2 className="font-display text-3xl md:text-4xl text-gradient-lime-yellow mb-4 text-center">

@@ -29,7 +29,7 @@ export default function RandomFactGenerator() {
 
   return (
     <div
-      className="relative bg-card p-6 md:p-8 border-[3px] border-bright-orange glow-orange"
+      className="relative bg-card p-8 md:p-10 border-[3px] border-bright-orange glow-orange overflow-hidden"
       style={{
         borderRadius: "1rem 3rem 1rem 3rem",
         transform: "rotate(2deg)",

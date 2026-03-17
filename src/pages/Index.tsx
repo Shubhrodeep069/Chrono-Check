@@ -51,35 +51,35 @@ export default function Index() {
         </section>
 
         {/* Collage Grid - intentionally chaotic */}
-        <div className="relative">
-          {/* Row 1: Conflict + TimeSlot overlapping */}
-          <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 mb-6 lg:mb-0">
-            <div className="lg:w-[55%] lg:mr-[-40px] z-20">
+        <div className="relative space-y-10 lg:space-y-14">
+          {/* Row 1: Conflict + TimeSlot */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-6">
+            <div className="lg:w-[55%] z-20">
               <ConflictDetector />
             </div>
-            <div className="lg:w-[50%] lg:mt-12 z-10">
+            <div className="lg:w-[50%] lg:mt-8 z-10">
               <TimeSlotChecker />
             </div>
           </div>
 
           {/* Decorative badge */}
           <div
-            className="hidden lg:flex absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 z-30 bg-sunny-yellow text-midnight font-display text-lg px-4 py-2 border-[3px] border-midnight items-center gap-1"
+            className="hidden lg:flex absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 z-30 bg-sunny-yellow text-midnight font-display text-lg px-4 py-2 border-[3px] border-midnight items-center gap-1"
             style={{ transform: "translate(-50%, -50%) rotate(12deg)", borderRadius: "20px" }}
           >
             ✅ VERIFIED SCHEDULE TOOL
           </div>
 
           {/* Row 2: Duration centered-ish */}
-          <div className="flex justify-center my-6 lg:my-[-20px] relative z-20">
+          <div className="flex justify-center relative z-20">
             <div className="w-full max-w-lg">
               <DurationChecker />
             </div>
           </div>
 
-          {/* Row 3: Fact + Mood overlapping */}
-          <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 mt-6 lg:mt-0">
-            <div className="lg:w-[50%] lg:mr-[-30px] z-10">
+          {/* Row 3: Fact + Mood */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-6">
+            <div className="lg:w-[50%] z-10">
               <RandomFactGenerator />
             </div>
             <div className="lg:w-[55%] lg:mt-8 z-20">

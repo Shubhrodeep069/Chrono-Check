@@ -22,9 +22,9 @@ export default function TimeSlotChecker() {
 
   return (
     <div
-      className="relative bg-card p-6 md:p-8 border-[3px] border-neon-cyan glow-cyan"
+      className="relative bg-card p-8 md:p-10 border-[3px] border-neon-cyan glow-cyan overflow-hidden"
       style={{
-        borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%",
+        borderRadius: "2.5rem 1rem 2.5rem 1rem",
         transform: "rotate(3deg)",
         animation: "float 5s ease-in-out 0.5s infinite",
       }}
