@@ -39,7 +39,7 @@ export default function DurationChecker() {
     <div
       className="relative bg-card p-6 md:p-8 border-[3px] border-sunny-yellow"
       style={{
-        clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+        borderRadius: "0.5rem 2.5rem 0.5rem 2.5rem",
         transform: "rotate(-1deg)",
         animation: "float 3.5s ease-in-out 1s infinite",
         boxShadow: "0 0 20px hsla(49, 100%, 65%, 0.5)",
