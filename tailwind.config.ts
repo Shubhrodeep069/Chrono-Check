@@ -8,11 +8,13 @@ export default {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      screens: { "2xl": "1400px" },
     },
     extend: {
+      fontFamily: {
+        display: ['"Bebas Neue"', 'cursive'],
+        body: ['Inter', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +49,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "neon-cyan": "hsl(var(--neon-cyan))",
+        "electric-pink": "hsl(var(--electric-pink))",
+        "bright-orange": "hsl(var(--bright-orange))",
+        "hot-purple": "hsl(var(--hot-purple))",
+        "lime-green": "hsl(var(--lime-green))",
+        "sunny-yellow": "hsl(var(--sunny-yellow))",
+        midnight: "hsl(var(--midnight))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -65,25 +74,38 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        jiggle: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(-3deg)" },
+          "75%": { transform: "rotate(3deg)" },
+        },
+        "bounce-in": {
+          "0%": { transform: "scale(0.3)", opacity: "0" },
+          "50%": { transform: "scale(1.1)" },
+          "70%": { transform: "scale(0.9)" },
+          "100%": { transform: "scale(1)", opacity: "1" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        float: "float 3s ease-in-out infinite",
+        "float-slow": "float 5s ease-in-out infinite",
+        "float-delayed": "float 4s ease-in-out 1s infinite",
+        jiggle: "jiggle 0.3s ease-in-out",
+        "bounce-in": "bounce-in 0.5s ease-out",
+        "spin-slow": "spin-slow 20s linear infinite",
       },
     },
   },
