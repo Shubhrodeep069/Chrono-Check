@@ -5,6 +5,13 @@ import DurationChecker from "@/components/DurationChecker";
 import RandomFactGenerator from "@/components/RandomFactGenerator";
 import MoodScheduler from "@/components/MoodScheduler";
 import FloatingDecor from "@/components/FloatingDecor";
+import ParticleBackground from "@/components/ParticleBackground";
+import Tilt3DCard from "@/components/Tilt3DCard";
+import VisualTimeGrid from "@/components/VisualTimeGrid";
+import ScheduleScore from "@/components/ScheduleScore";
+import MultiPersonScheduler from "@/components/MultiPersonScheduler";
+import TimeZoneConverter from "@/components/TimeZoneConverter";
+import AchievementBadges from "@/components/AchievementBadges";
 
 export default function Index() {
   return (
@@ -16,6 +23,7 @@ export default function Index() {
         animation: "gradient-shift 15s ease infinite",
       }}
     >
+      <ParticleBackground />
       <FloatingDecor />
 
       <div className="relative z-10 px-4 py-8 md:px-8 max-w-7xl mx-auto">
@@ -45,51 +53,92 @@ export default function Index() {
 
         {/* Wild Clock */}
         <section className="mb-10 md:mb-16 flex justify-center" style={{ transform: "rotate(1deg)" }}>
-          <div className="bg-card/50 backdrop-blur-sm border-2 border-neon-cyan rounded-2xl p-6 md:p-8 glow-cyan">
-            <WildClock />
-          </div>
+          <Tilt3DCard>
+            <div className="bg-card/50 backdrop-blur-sm border-2 border-neon-cyan rounded-2xl p-6 md:p-8 glow-cyan">
+              <WildClock />
+            </div>
+          </Tilt3DCard>
         </section>
 
-        {/* Collage Grid - intentionally chaotic */}
+        {/* === ORIGINAL 5 TOOLS === */}
         <div className="relative space-y-10 lg:space-y-14">
           {/* Row 1: Conflict + TimeSlot */}
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-6">
-            <div className="lg:w-[55%] z-20">
+            <Tilt3DCard className="lg:w-[55%] z-20">
               <ConflictDetector />
-            </div>
-            <div className="lg:w-[50%] lg:mt-8 z-10">
+            </Tilt3DCard>
+            <Tilt3DCard className="lg:w-[50%] lg:mt-8 z-10">
               <TimeSlotChecker />
-            </div>
+            </Tilt3DCard>
           </div>
 
           {/* Decorative badge */}
           <div
-            className="hidden lg:flex absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 z-30 bg-sunny-yellow text-midnight font-display text-lg px-4 py-2 border-[3px] border-midnight items-center gap-1"
+            className="hidden lg:flex absolute left-1/2 top-[22%] -translate-x-1/2 -translate-y-1/2 z-30 bg-sunny-yellow text-midnight font-display text-lg px-4 py-2 border-[3px] border-midnight items-center gap-1"
             style={{ transform: "translate(-50%, -50%) rotate(12deg)", borderRadius: "20px" }}
           >
             ✅ VERIFIED SCHEDULE TOOL
           </div>
 
-          {/* Row 2: Duration centered-ish */}
+          {/* Row 2: Duration centered */}
           <div className="flex justify-center relative z-20">
-            <div className="w-full max-w-lg">
+            <Tilt3DCard className="w-full max-w-lg">
               <DurationChecker />
-            </div>
+            </Tilt3DCard>
           </div>
 
           {/* Row 3: Fact + Mood */}
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-6">
-            <div className="lg:w-[50%] z-10">
+            <Tilt3DCard className="lg:w-[50%] z-10">
               <RandomFactGenerator />
-            </div>
-            <div className="lg:w-[55%] lg:mt-8 z-20">
+            </Tilt3DCard>
+            <Tilt3DCard className="lg:w-[55%] lg:mt-8 z-20">
               <MoodScheduler />
-            </div>
+            </Tilt3DCard>
+          </div>
+        </div>
+
+        {/* === SECTION DIVIDER === */}
+        <div className="text-center my-16 md:my-24">
+          <div className="inline-block relative">
+            <h2 className="font-display text-5xl md:text-7xl text-gradient-cyan-purple">
+              🔥 POWER TOOLS 🔥
+            </h2>
+            <span className="absolute -top-3 -right-6 text-3xl animate-float">💎</span>
+          </div>
+          <p className="font-display text-xl text-muted-foreground mt-2">NEXT-LEVEL SCHEDULING FEATURES</p>
+        </div>
+
+        {/* === NEW FEATURES === */}
+        <div className="relative space-y-10 lg:space-y-14">
+          {/* Visual Time Grid - Full Width */}
+          <Tilt3DCard>
+            <VisualTimeGrid />
+          </Tilt3DCard>
+
+          {/* Multi Person + Time Zone */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-6">
+            <Tilt3DCard className="lg:w-[55%]" >
+              <MultiPersonScheduler />
+            </Tilt3DCard>
+            <Tilt3DCard className="lg:w-[50%] lg:mt-8">
+              <TimeZoneConverter />
+            </Tilt3DCard>
+          </div>
+
+          {/* Schedule Score + Achievements */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-6">
+            <Tilt3DCard className="lg:w-[50%]">
+              <ScheduleScore />
+            </Tilt3DCard>
+            <Tilt3DCard className="lg:w-[55%] lg:mt-8">
+              <AchievementBadges />
+            </Tilt3DCard>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="text-center mt-12 md:mt-20 pb-8" style={{ transform: "rotate(1deg)" }}>
+        <footer className="text-center mt-16 md:mt-24 pb-8" style={{ transform: "rotate(1deg)" }}>
           <p className="font-display text-xl text-muted-foreground">
             MADE WITH 🔥 AND ZERO BORING MEETINGS
           </p>

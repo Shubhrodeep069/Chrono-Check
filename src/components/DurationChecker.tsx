@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ConfettiBlast from "./ConfettiBlast";
+import TypewriterText from "./TypewriterText";
 
 export default function DurationChecker() {
   const [start, setStart] = useState("");
@@ -7,6 +8,7 @@ export default function DurationChecker() {
   const [blocked, setBlocked] = useState("");
   const [result, setResult] = useState<null | { works: boolean; endTime?: string }>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [shake, setShake] = useState(false);
 
   const check = () => {
     const toMin = (t: string) => {
@@ -32,16 +34,19 @@ export default function DurationChecker() {
     if (!hasConflict) {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 2000);
+    } else {
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
     }
   };
 
   return (
     <div
-      className="relative bg-card p-8 md:p-10 border-[3px] border-sunny-yellow overflow-hidden"
+      className={`relative bg-card p-8 md:p-10 border-[3px] border-sunny-yellow overflow-hidden ${shake ? "animate-shake" : ""}`}
       style={{
         borderRadius: "0.5rem 2.5rem 0.5rem 2.5rem",
         transform: "rotate(-1deg)",
-        animation: "float 3.5s ease-in-out 1s infinite",
+        animation: shake ? undefined : "float 3.5s ease-in-out 1s infinite",
         boxShadow: "0 0 20px hsla(49, 100%, 65%, 0.5)",
       }}
     >
@@ -55,7 +60,7 @@ export default function DurationChecker() {
         <input type="number" className="chrono-input w-full" placeholder="⏱️ Minutes needed" value={minutes} onChange={(e) => setMinutes(e.target.value)} />
         <input className="chrono-input w-full" placeholder="🚫 10:00-11:00, 14:00-15:00" value={blocked} onChange={(e) => setBlocked(e.target.value)} />
         <p className="text-sm text-muted-foreground">🚫 Blocked slots</p>
-        <button onClick={check} className="btn-3d-orange w-full py-3 font-display text-xl tracking-wider rounded-lg hover:animate-jiggle">
+        <button onClick={check} className="chrono-btn-orange w-full py-3 font-display text-xl tracking-wider rounded-lg hover:animate-jiggle">
           🧮 DO THE MATH
         </button>
       </div>
@@ -63,11 +68,11 @@ export default function DurationChecker() {
         <div className="mt-4 text-center animate-bounce-in">
           {result.works ? (
             <div className="comic-bubble text-xl font-display">
-              🎉 WORKS! Ends at {result.endTime}
+              <TypewriterText text={`🎉 WORKS! Ends at ${result.endTime}`} speed={35} />
             </div>
           ) : (
             <div className="comic-bubble !bg-electric-pink !text-foreground !border-foreground text-xl font-display">
-              🙅‍♂️ NOPE! BLOCKED!
+              <TypewriterText text="🙅‍♂️ NOPE! BLOCKED!" speed={40} />
             </div>
           )}
         </div>
