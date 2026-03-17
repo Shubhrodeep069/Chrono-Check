@@ -72,13 +72,7 @@ export default function Index() {
             </Tilt3DCard>
           </div>
 
-          {/* Decorative badge */}
-          <div
-            className="hidden lg:flex absolute left-1/2 top-[22%] -translate-x-1/2 -translate-y-1/2 z-30 bg-sunny-yellow text-midnight font-display text-lg px-4 py-2 border-[3px] border-midnight items-center gap-1"
-            style={{ transform: "translate(-50%, -50%) rotate(12deg)", borderRadius: "20px" }}
-          >
-            ✅ VERIFIED SCHEDULE TOOL
-          </div>
+
 
           {/* Row 2: Duration centered */}
           <div className="flex justify-center relative z-20">
