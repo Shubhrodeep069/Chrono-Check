@@ -31,7 +31,7 @@ export default function RandomFactGenerator() {
     <div
       className="relative bg-card p-6 md:p-8 border-[3px] border-bright-orange glow-orange"
       style={{
-        clipPath: "polygon(0 0, 100% 0, 90% 50%, 100% 100%, 0 100%, 10% 50%)",
+        borderRadius: "1rem 3rem 1rem 3rem",
         transform: "rotate(2deg)",
         animation: "float 4.5s ease-in-out 0.3s infinite",
       }}

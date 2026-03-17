@@ -28,7 +28,7 @@ export default function ConflictDetector() {
     <div
       className="relative bg-card p-6 md:p-8 border-[3px] border-electric-pink glow-pink"
       style={{
-        clipPath: "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)",
+        borderRadius: "2rem 0.5rem 2rem 0.5rem",
         transform: "rotate(-2deg)",
         animation: "float 4s ease-in-out infinite",
       }}
