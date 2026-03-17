@@ -26,7 +26,7 @@ export default function ConflictDetector() {
 
   return (
     <div
-      className="relative bg-card p-6 md:p-8 border-[3px] border-electric-pink glow-pink"
+      className="relative bg-card p-8 md:p-10 border-[3px] border-electric-pink glow-pink overflow-hidden"
       style={{
         borderRadius: "2rem 0.5rem 2rem 0.5rem",
         transform: "rotate(-2deg)",
