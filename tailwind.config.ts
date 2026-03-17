@@ -96,6 +96,11 @@ export default {
           "70%": { transform: "scale(0.9)" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "10%, 30%, 50%, 70%, 90%": { transform: "translateX(-5px)" },
+          "20%, 40%, 60%, 80%": { transform: "translateX(5px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -106,6 +111,7 @@ export default {
         jiggle: "jiggle 0.3s ease-in-out",
         "bounce-in": "bounce-in 0.5s ease-out",
         "spin-slow": "spin-slow 20s linear infinite",
+        shake: "shake 0.6s ease-in-out",
       },
     },
   },
