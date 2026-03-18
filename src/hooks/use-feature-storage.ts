@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 import { useCloudUser } from "@/components/CloudProvider";
 
 export function useFeatureStorage<T extends Record<string, unknown>>(featureKey: string, initialState: T) {
@@ -52,7 +53,7 @@ export function useFeatureStorage<T extends Record<string, unknown>>(featureKey:
           {
             user_id: user.id,
             feature_key: featureKey,
-            payload: state,
+            payload: state as unknown as Json,
           },
         ],
         { onConflict: "user_id,feature_key" },
