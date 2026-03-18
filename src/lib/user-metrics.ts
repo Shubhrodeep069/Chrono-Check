@@ -1,6 +1,8 @@
+import type { Json } from "@/integrations/supabase/types";
+
 export interface FeatureProgressRow {
   feature_key: string;
-  payload: Record<string, any> | null;
+  payload: Json;
 }
 
 export interface RoutineCheckinLike {
@@ -60,14 +62,17 @@ const startOfWeek = (value: Date) => {
 
 const startOfMonth = (value: Date) => new Date(value.getFullYear(), value.getMonth(), 1);
 
-const getPayload = (rows: FeatureProgressRow[], key: string) => rows.find((row) => row.feature_key === key)?.payload ?? {};
+const isRecord = (value: Json): value is Record<string, Json> => !!value && typeof value === "object" && !Array.isArray(value);
 
-const getCount = (payload: Record<string, any>, ...paths: string[]) => {
+const getPayload = (rows: FeatureProgressRow[], key: string): Record<string, Json> => {
+  const value = rows.find((row) => row.feature_key === key)?.payload;
+  return value && isRecord(value) ? value : {};
+};
+
+const getCount = (payload: Record<string, Json>, ...paths: string[]) => {
   for (const path of paths) {
-    const value = path.split(".").reduce<any>((acc, part) => (acc == null ? undefined : acc[part]), payload);
-    if (typeof value === "number" && Number.isFinite(value)) {
-      return value;
-    }
+    const value = path.split(".").reduce<any>((acc, part) => (acc == null || typeof acc !== "object" ? undefined : acc[part]), payload);
+    if (typeof value === "number" && Number.isFinite(value)) return value;
   }
   return 0;
 };
@@ -95,11 +100,8 @@ export function buildRoutineSummary(checkins: RoutineCheckinLike[], totalTasks: 
     const date = new Date(today);
     date.setDate(today.getDate() - offset);
     const key = formatDateKey(date);
-    if (completedDates.includes(key)) {
-      currentStreak += 1;
-    } else {
-      break;
-    }
+    if (completedDates.includes(key)) currentStreak += 1;
+    else break;
   }
 
   const completedToday = completed.filter((item) => item.checkin_date === todayKey).length;
@@ -129,109 +131,21 @@ export function buildAchievementCards(rows: FeatureProgressRow[], routine: Routi
   const timezone = getPayload(rows, "time-zone-converter");
 
   const cards = [
-    {
-      id: "routine-starter",
-      emoji: "🌱",
-      label: "Routine Starter",
-      desc: "Complete your first routine check-in.",
-      progress: routine.completedAllTime,
-      max: 1,
-    },
-    {
-      id: "consistency-crew",
-      emoji: "✅",
-      label: "Consistency Crew",
-      desc: "Finish 7 routine tasks across any days.",
-      progress: routine.completedAllTime,
-      max: 7,
-    },
-    {
-      id: "streak-master",
-      emoji: "🔥",
-      label: "Streak Master",
-      desc: "Reach a 14-day routine streak.",
-      progress: routine.currentStreak,
-      max: 14,
-    },
-    {
-      id: "conflict-buster",
-      emoji: "💥",
-      label: "Conflict Buster",
-      desc: "Clear 10 conflict checks without overlap.",
-      progress: getCount(conflict, "stats.noConflicts"),
-      max: 10,
-    },
-    {
-      id: "slot-scout",
-      emoji: "🔍",
-      label: "Slot Scout",
-      desc: "Find 10 free moments with the time-slot tool.",
-      progress: getCount(slot, "stats.freeHits"),
-      max: 10,
-    },
-    {
-      id: "duration-ace",
-      emoji: "⏱️",
-      label: "Duration Ace",
-      desc: "Fit 10 sessions perfectly into your day.",
-      progress: getCount(duration, "stats.successes"),
-      max: 10,
-    },
-    {
-      id: "mood-mapper",
-      emoji: "🌊",
-      label: "Mood Mapper",
-      desc: "Update your scheduling mood 7 times.",
-      progress: getCount(mood, "stats.changes"),
-      max: 7,
-    },
-    {
-      id: "grid-architect",
-      emoji: "📊",
-      label: "Grid Architect",
-      desc: "Edit your visual grid 15 times.",
-      progress: getCount(grid, "stats.edits"),
-      max: 15,
-    },
-    {
-      id: "team-sync",
-      emoji: "👥",
-      label: "Team Sync",
-      desc: "Find common time for the whole team 5 times.",
-      progress: getCount(multi, "stats.successes"),
-      max: 5,
-    },
-    {
-      id: "world-hopper",
-      emoji: "🌍",
-      label: "World Hopper",
-      desc: "Convert time zones 12 times.",
-      progress: getCount(timezone, "stats.conversions"),
-      max: 12,
-    },
-    {
-      id: "fact-collector",
-      emoji: "🎲",
-      label: "Fact Collector",
-      desc: "Spin 10 scheduling facts.",
-      progress: getCount(facts, "stats.spins", "spins"),
-      max: 10,
-    },
-    {
-      id: "planning-pro",
-      emoji: "🗂️",
-      label: "Planning Pro",
-      desc: "Create 10 routine tasks across your plans.",
-      progress: routine.totalTasks,
-      max: 10,
-    },
+    { id: "routine-starter", emoji: "🌱", label: "Routine Starter", desc: "Complete your first routine check-in.", progress: routine.completedAllTime, max: 1 },
+    { id: "consistency-crew", emoji: "✅", label: "Consistency Crew", desc: "Finish 7 routine tasks across any days.", progress: routine.completedAllTime, max: 7 },
+    { id: "streak-master", emoji: "🔥", label: "Streak Master", desc: "Reach a 14-day routine streak.", progress: routine.currentStreak, max: 14 },
+    { id: "conflict-buster", emoji: "💥", label: "Conflict Buster", desc: "Clear 10 conflict checks without overlap.", progress: getCount(conflict, "stats.noConflicts"), max: 10 },
+    { id: "slot-scout", emoji: "🔍", label: "Slot Scout", desc: "Find 10 free moments with the time-slot tool.", progress: getCount(slot, "stats.freeHits"), max: 10 },
+    { id: "duration-ace", emoji: "⏱️", label: "Duration Ace", desc: "Fit 10 sessions perfectly into your day.", progress: getCount(duration, "stats.successes"), max: 10 },
+    { id: "mood-mapper", emoji: "🌊", label: "Mood Mapper", desc: "Update your scheduling mood 7 times.", progress: getCount(mood, "stats.changes"), max: 7 },
+    { id: "grid-architect", emoji: "📊", label: "Grid Architect", desc: "Edit your visual grid 15 times.", progress: getCount(grid, "stats.edits"), max: 15 },
+    { id: "team-sync", emoji: "👥", label: "Team Sync", desc: "Find common time for the whole team 5 times.", progress: getCount(multi, "stats.successes"), max: 5 },
+    { id: "world-hopper", emoji: "🌍", label: "World Hopper", desc: "Convert time zones 12 times.", progress: getCount(timezone, "stats.conversions"), max: 12 },
+    { id: "fact-collector", emoji: "🎲", label: "Fact Collector", desc: "Spin 10 scheduling facts.", progress: getCount(facts, "stats.spins", "spins"), max: 10 },
+    { id: "planning-pro", emoji: "🗂️", label: "Planning Pro", desc: "Create 10 routine tasks across your plans.", progress: routine.totalTasks, max: 10 },
   ];
 
-  return cards.map((card) => ({
-    ...card,
-    progress: Math.min(card.progress, card.max),
-    unlocked: card.progress >= card.max,
-  }));
+  return cards.map((card) => ({ ...card, progress: Math.min(card.progress, card.max), unlocked: card.progress >= card.max }));
 }
 
 export function buildScheduleScore(rows: FeatureProgressRow[], routine: RoutineSummary): ScheduleScoreData {
@@ -244,58 +158,19 @@ export function buildScheduleScore(rows: FeatureProgressRow[], routine: RoutineS
   const multi = getPayload(rows, "multi-person-scheduler");
   const timezone = getPayload(rows, "time-zone-converter");
 
-  const toolMomentum = Math.min(
-    100,
-    (getCount(conflict, "stats.checks") +
-      getCount(slot, "stats.checks") +
-      getCount(duration, "stats.checks") +
-      getCount(mood, "stats.changes") +
-      getCount(facts, "stats.spins", "spins") +
-      getCount(grid, "stats.edits") +
-      getCount(multi, "stats.runs") +
-      getCount(timezone, "stats.conversions")) * 5,
-  );
-
+  const toolMomentum = Math.min(100, (getCount(conflict, "stats.checks") + getCount(slot, "stats.checks") + getCount(duration, "stats.checks") + getCount(mood, "stats.changes") + getCount(facts, "stats.spins", "spins") + getCount(grid, "stats.edits") + getCount(multi, "stats.runs") + getCount(timezone, "stats.conversions")) * 5);
   const dailyCompletion = routine.totalTasks > 0 ? Math.round((routine.completedToday / routine.totalTasks) * 100) : 0;
   const routineConsistency = Math.round(routine.monthlyProgress * 100);
   const timeBalance = Math.round(Math.min(100, getCount(grid, "stats.freePercent")));
   const planningDepth = Math.min(100, routine.totalTasks * 10 + Math.round(routine.weeklyProgress * 30));
+  const momentumScore = planningDepth > 0 ? Math.round((toolMomentum + planningDepth) / 2) : toolMomentum;
 
   const categories: ScoreCategory[] = [
-    {
-      label: "Daily Completion",
-      emoji: "✅",
-      score: dailyCompletion,
-      grade: getGrade(dailyCompletion),
-      tone: "lime",
-    },
-    {
-      label: "Routine Consistency",
-      emoji: "📅",
-      score: routineConsistency,
-      grade: getGrade(routineConsistency),
-      tone: "cyan",
-    },
-    {
-      label: "Time Balance",
-      emoji: "⏳",
-      score: timeBalance,
-      grade: getGrade(timeBalance),
-      tone: "yellow",
-    },
-    {
-      label: "Tool Momentum",
-      emoji: "⚡",
-      score: planningDepth > 0 ? Math.round((toolMomentum + planningDepth) / 2) : toolMomentum,
-      grade: getGrade(planningDepth > 0 ? Math.round((toolMomentum + planningDepth) / 2) : toolMomentum),
-      tone: "pink",
-    },
+    { label: "Daily Completion", emoji: "✅", score: dailyCompletion, grade: getGrade(dailyCompletion), tone: "lime" },
+    { label: "Routine Consistency", emoji: "📅", score: routineConsistency, grade: getGrade(routineConsistency), tone: "cyan" },
+    { label: "Time Balance", emoji: "⏳", score: timeBalance, grade: getGrade(timeBalance), tone: "yellow" },
+    { label: "Tool Momentum", emoji: "⚡", score: momentumScore, grade: getGrade(momentumScore), tone: "pink" },
   ];
 
-  const total = Math.round(categories.reduce((sum, category) => sum + category.score, 0) / categories.length);
-
-  return {
-    total,
-    categories,
-  };
+  return { total: Math.round(categories.reduce((sum, category) => sum + category.score, 0) / categories.length), categories };
 }
