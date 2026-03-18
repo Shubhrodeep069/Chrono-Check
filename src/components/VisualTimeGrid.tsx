@@ -10,7 +10,10 @@ const STATUS_CONFIG: Record<SlotStatus, { label: string; emoji: string; bgClass:
   lunch: { label: "Lunch", emoji: "░░", bgClass: "bg-sunny-yellow/30 border-sunny-yellow/50" },
 };
 const CYCLE: SlotStatus[] = ["free", "busy", "meeting", "lunch"];
-const initialSlots = Object.fromEntries(HOURS.map((h) => [h, h === 12 ? "lunch" : "free"])) as [number, SlotStatus][];
+const initialSlots: Record<number, SlotStatus> = HOURS.reduce<Record<number, SlotStatus>>((acc, hour) => {
+  acc[hour] = hour === 12 ? "lunch" : "free";
+  return acc;
+}, {});
 
 export default function VisualTimeGrid() {
   const { state, setState } = useFeatureStorage("visual-time-grid", { slots: initialSlots as Record<number, SlotStatus>, stats: { edits: 0, freePercent: 100 } });
