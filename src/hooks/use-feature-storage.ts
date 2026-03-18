@@ -48,11 +48,13 @@ export function useFeatureStorage<T extends Record<string, unknown>>(featureKey:
 
     const timeout = window.setTimeout(() => {
       void supabase.from("user_feature_progress").upsert(
-        {
-          user_id: user.id,
-          feature_key: featureKey,
-          payload: state,
-        },
+        [
+          {
+            user_id: user.id,
+            feature_key: featureKey,
+            payload: state,
+          },
+        ],
         { onConflict: "user_id,feature_key" },
       );
     }, 250);
