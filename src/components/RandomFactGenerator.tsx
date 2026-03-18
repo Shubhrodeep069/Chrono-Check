@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useFeatureStorage } from "@/hooks/use-feature-storage";
 
 const FACTS = [
   "🤯 The average person spends 31 HOURS in meetings per month. That's like binge-watching 10 seasons of a show!",
@@ -16,43 +17,21 @@ const FACTS = [
 ];
 
 export default function RandomFactGenerator() {
-  const [fact, setFact] = useState<string | null>(null);
+  const { state, setState } = useFeatureStorage("random-facts", { fact: null as string | null, stats: { spins: 0 } });
   const [spinning, setSpinning] = useState(false);
 
   const spin = () => {
     setSpinning(true);
     setTimeout(() => {
-      setFact(FACTS[Math.floor(Math.random() * FACTS.length)]);
+      const fact = FACTS[Math.floor(Math.random() * FACTS.length)];
+      setState((prev) => ({ fact, stats: { spins: prev.stats.spins + 1 } }));
       setSpinning(false);
     }, 800);
   };
 
-  return (
-    <div
-      className="relative bg-card p-8 md:p-10 border-[3px] border-bright-orange glow-orange overflow-hidden"
-      style={{
-        borderRadius: "1rem 3rem 1rem 3rem",
-        transform: "rotate(2deg)",
-        animation: "float 4.5s ease-in-out 0.3s infinite",
-      }}
-    >
-      <h2 className="font-display text-3xl md:text-4xl text-gradient-pink-orange mb-4 text-center">
-        💥 FACT BURST
-      </h2>
-      <button
-        onClick={spin}
-        disabled={spinning}
-        className="btn-3d-purple w-full py-4 font-display text-2xl tracking-wider rounded-xl text-foreground hover:animate-jiggle disabled:opacity-50"
-      >
-        {spinning ? "🌀 SPINNING..." : "🎲 SPIN THE FACT"}
-      </button>
-      {fact && !spinning && (
-        <div className="mt-4 animate-bounce-in">
-          <div className="comic-bubble text-base font-body font-semibold leading-relaxed">
-            {fact}
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  return <div className="relative bg-card p-8 md:p-10 border-[3px] border-bright-orange glow-orange overflow-hidden" style={{ borderRadius: "1rem 3rem 1rem 3rem", transform: "rotate(2deg)", animation: "float 4.5s ease-in-out 0.3s infinite" }}>
+    <h2 className="font-display text-3xl md:text-4xl text-gradient-pink-orange mb-4 text-center">💥 FACT BURST</h2>
+    <button onClick={spin} disabled={spinning} className="btn-3d-purple w-full py-4 font-display text-2xl tracking-wider rounded-xl text-foreground hover:animate-jiggle disabled:opacity-50">{spinning ? "🌀 SPINNING..." : "🎲 SPIN THE FACT"}</button>
+    {state.fact && !spinning && <div className="mt-4 animate-bounce-in"><div className="comic-bubble text-base font-body font-semibold leading-relaxed">{state.fact}</div></div>}
+  </div>;
 }
