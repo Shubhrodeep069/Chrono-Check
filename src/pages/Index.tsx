@@ -131,8 +131,8 @@ export default function Index() {
         <footer className="text-center mt-16 md:mt-24 pb-8" style={{ transform: "rotate(1deg)" }}>
           <p className="font-display text-xl text-muted-foreground">MADE WITH 🔥, REAL TRACKING, AND ZERO FAKE STARTER STATS</p>
           <div className="flex justify-center gap-3 mt-3 text-3xl">
-            {"🎮🕹️🎯🏆⚡".split("").filter((char) => char.trim()).map((emoji, index) => (
-              <span key={index} className="animate-float" style={{ animationDelay: `${index * 0.3}s` }}>{emoji}</span>
+            {"🎮🕹️🎯🏆⚡🎲🌟💎🔥🚀✨🎪🎨🎭🎸🎺🎻🎹🎬🎤🎧🎼🎵🎶🎰🎳".split("").filter((char) => char.trim()).map((emoji, index) => (
+              <span key={index} className="animate-float" style={{ animationDelay: `${index * 0.1}s` }}>{emoji}</span>
             ))}
           </div>
         </footer>
